@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        th {
+
+            padding-right: 20px;
+        }
+
+        .container {
+            width: 500px;
+            height: 300px;
+            background-color: rgb(245, 240, 240);
+        }
+
+        .main {
+            padding: 30px;
+            ;
+        }
+        .error{
+            display: none;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="main">
+            <label for="">Ilkin odenis</label><br>
+            <input type="text" id="ilkin"><br><br>
+            <p class="error">Minimal odenilecek mebleq-</p>
+
+           
+            <input type="submit" value="Ode" id="subm"><br>
+            <table>
+                <tr>
+                    <th>Muddet</th>
+
+                    <th>Ayliq odenis</th>
+                </tr>
+                <tr>
+                    <td>6 ay</td>
+                    <td class="ay6"> ay</td>
+                </tr>
+                <tr>
+                    <td>9 ay</td>
+                    <td class="ay9"> ay</td>
+                </tr>
+                <tr>
+                    <td>12 ay</td>
+                    <td class="ay12"> ay</td>
+                </tr>
+                <tr>
+                    <td>18 ay</td>
+                    <td class="ay18">ay</td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    <script>
+        let dom = {
+            createElement: function (tagName, className, cssProps, location) {
+                let element = document.createElement(tagName);
+                if (element != null) {
+                    if (this._isValue(className)) {
+                        element.className = className;
+                    }
+
+
+                    for (let f in cssProps) {
+                        if (this._isAttr(f)) {
+                            element[f] = cssProps[f];
+                        }
+                        else {
+                            element.style[f] = cssProps[f];
+                        }
+                    }
+                }
+                location.appendChild(element);
+                return element;
+            },
+            _isValue: function (val) {
+                return (typeof (val) !== "undefined" && val)
+            },
+            _isAttr: function (attr) {
+                return (attr == 'src' || attr == 'href' || attr == 'innerText' || attr == 'id');
+            }
+        }
+
+        let parobj = JSON.parse(localStorage.getItem('Cars'));
+
+        let maindiv = dom.createElement('div', 'card', { "width": "16em" }, document.body);
+        console.log(maindiv);
+        let img = dom.createElement('img', "image", { "src": parobj.src, "alt": "carImg", "width": "300px", "heigth": "300px" }, maindiv);
+        let cardBody = dom.createElement("div", "card-body", "", maindiv);
+        let tr = dom.createElement('tr', '', '', maindiv);
+        let th = dom.createElement('th', '', '', tr);
+        th.innerText = "Marka";
+        let td = dom.createElement('td', '', '', tr);
+
+        let tr2 = dom.createElement('tr', '', '', maindiv);
+        let th2 = dom.createElement('th', '', '', tr2);
+        th2.innerText = "Yurus ";
+        let td2 = dom.createElement('td', '', '', tr2);
+
+        let tr3 = dom.createElement('tr', '', '', maindiv);
+        let th3 = dom.createElement('th', '', '', tr3);
+        th3.innerText = "Qiymet";
+        let td3 = dom.createElement('td', '', '', tr3);
+
+        let tr4 = dom.createElement('tr', '', '', maindiv);
+        let th4 = dom.createElement('th', '', '', tr4);
+
+        let td4 = dom.createElement('td', '', '', tr4);
+        th4.innerText = "Sedan";
+        td4.innerText = "Ban novu";
+        maindiv.appendChild(tr4);
+
+        dom.createElement("p", "card-title", { "innerText": parobj.h6 }, td);
+        dom.createElement("p", "card-text", { "innerText": parobj.p }, td2);
+        dom.createElement("p", "card-span", { "innerText": parobj.on }, td3);
+
+
+        let price = "$";
+
+        let carPrice = parobj.price;
+
+        let num = carPrice.substr(price, carPrice.length - price.length);
+
+        parNum = parseInt(num);
+
+        let ilkin = document.querySelector('#ilkin');
+        let submit = document.querySelector('#subm');
+        let error=document.getElementsByClassName('error')[0];
+    
+        submit.addEventListener('click', () => {
+            if (ilkin.value >= parNum / 3 ) {
+               
+                error.style.display="none";
+                
+            }
+           
+            else {
+                error.innerText+=Math.round(parNum/3)+"  olmalidir";
+                error.style.display="block";
+               
+            }
+            let ay6=document.getElementsByClassName('ay6')[0];
+            let ay9=document.getElementsByClassName('ay9')[0];
+            let ay12=document.getElementsByClassName('ay12')[0];
+            let ay18=document.getElementsByClassName('ay18')[0];
+           
+
+            let first=parseInt((parNum-ilkin.value+(((parNum-ilkin.value)*4)/100))/6);
+            let second=parseInt((parNum-ilkin.value+(((parNum-ilkin.value)*8)/100))/9);
+            let third=parseInt((parNum-ilkin.value+(((parNum-ilkin.value)*10)/100))/12);
+            let four=parseInt((parNum-ilkin.value+(((parNum-ilkin.value)*14)/100))/18);
+            
+
+            ay6.innerText=first;
+            ay9.innerText=second;
+            ay12.innerText=third;
+            ay18.innerText=four;
+        
+            ilkin.value="";
+        })
+
+    </script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
